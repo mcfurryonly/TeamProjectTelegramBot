@@ -1,12 +1,18 @@
 package pro.sky.teamproject.model;
 
-import javax.persistence.*;
+import nonapi.io.github.classgraph.json.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Lob;
 import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
 public class Shelter {
 
+    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -97,4 +103,5 @@ public class Shelter {
                 ", schema=" + Arrays.toString(schema) +
                 '}';
     }
+
 }

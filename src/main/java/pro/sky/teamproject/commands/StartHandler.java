@@ -23,8 +23,8 @@ public class StartHandler implements Handler {
 
     @Override
     public void handle(Update update) {
-        InlineKeyboardButton dogButton = new InlineKeyboardButton("Приют собак");
-        InlineKeyboardButton catButton = new InlineKeyboardButton("Приют кошек");
+        InlineKeyboardButton dogButton = new InlineKeyboardButton("Приют собак").callbackData("dog");
+        InlineKeyboardButton catButton = new InlineKeyboardButton("Приют кошек").callbackData("cat");
 //        InlineKeyboardButton[] arrayOfButtons = new InlineKeyboardButton[]{
 //                dogButton, catButton};
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(dogButton, catButton);
@@ -32,7 +32,6 @@ public class StartHandler implements Handler {
                 "Добро пожаловать в приложение")
                 .replyMarkup(markup);
         bot.execute(sendMessage);
-
     }
 
     @Override
