@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class VolunteerController {
-    @Operation(summary = "contact", description = "contact with volunteer",
+    @Operation(summary = "approval", description = "approval for admission",
             responses = {
                     @ApiResponse(responseCode = "200",
-                            description = "contact with volunteer was successful"
+                            description = "TRUE/FALSE about approval and reason"
                     ),
                     @ApiResponse(responseCode = "500",
                             description = "Server Error"
                     )
             })
     @PostMapping("/volunteer")
-    public ResponseEntity<String> contactVolunteer(@RequestParam Long volunteerId) {
+    public ResponseEntity<Object> contactVolunteer(@RequestParam Long userId,
+                                                   @RequestParam Long orderId) {
         return ResponseEntity.ok("test");
     }
 }
+
