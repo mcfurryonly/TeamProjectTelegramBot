@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.teamproject.commands.Handler;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -16,8 +17,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 
-    @Autowired
-    private TelegramBot telegramBot;
+//    @Autowired
+    private final TelegramBot telegramBot;
+    private final List<Handler> handlers;
+
+    public TelegramBotUpdatesListener(TelegramBot telegramBot, List<Handler> handlers) {
+        this.telegramBot = telegramBot;
+        this.handlers = handlers;
+    }
 
     @PostConstruct
     public void init() {
@@ -26,9 +33,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> updates) {
+        //Проходим все updates это сообщение от клиента
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            // Process your updates here
+            //Обходим все команды и находим подходящие к этому сообщению
+            handlers.stream()
+                    .filter(handler -> handler.isSuitable(update))
+                    .forEach(handler -> handler.handle(update));
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
