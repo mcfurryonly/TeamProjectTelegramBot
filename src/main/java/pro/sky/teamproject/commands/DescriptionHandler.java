@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
-public class DescriptionHandler implements Handler {
+public class DescriptionHandler implements ExtendedHandler {
 
     private final String INFO = "/info";
     private final String TAKE = "/take";
@@ -13,16 +13,12 @@ public class DescriptionHandler implements Handler {
     private final String VOLUNTEER = "/volunteer";
     private final TelegramBot bot;
 
-    // Добавьте поле для хранения выбора пользователя
-    private final String userChoice;
-
-    public DescriptionHandler(TelegramBot bot, String userChoice) {
+    public DescriptionHandler(TelegramBot bot) {
         this.bot = bot;
-        this.userChoice = userChoice;
     }
 
     @Override
-    public void handle(Update update) {
+    public void handle(Update update, String userChoice) {
         Message message = update.message();
         if (message != null && message.text() != null) {
             String text = message.text();

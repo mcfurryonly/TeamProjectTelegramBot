@@ -2,10 +2,8 @@ package pro.sky.teamproject.commands;
 
 import com.pengrad.telegrambot.model.Update;
 
-public interface Handler {
-
-    void handle(Update update);
+public interface ExtendedHandler {
+    void handle(Update update, String userChoice);
 
     boolean isSuitable(Update update);
-
 }

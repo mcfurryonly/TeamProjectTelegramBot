@@ -15,24 +15,35 @@ public class StartHandler implements Handler {
 
     private final String START = "/start";
     private final TelegramBot bot;
-
+    private DescriptionHandler descriptionHandler;
 
     public StartHandler(TelegramBot bot) {
         this.bot = bot;
     }
 
-    @Override
+    /**
+     * @param update creates a buttons and sends a message
+     */
     public void handle(Update update) {
-        InlineKeyboardButton dogButton = new InlineKeyboardButton("Приют собак").callbackData("dog");
-        InlineKeyboardButton catButton = new InlineKeyboardButton("Приют кошек").callbackData("cat");
-//        InlineKeyboardButton[] arrayOfButtons = new InlineKeyboardButton[]{
-//                dogButton, catButton};
+        String DOG = "Dog";
+        InlineKeyboardButton dogButton = new InlineKeyboardButton("Приют собак").callbackData(DOG);
+        String CAT = "Cat";
+        InlineKeyboardButton catButton = new InlineKeyboardButton("Приют кошек").callbackData(CAT);
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(dogButton, catButton);
         SendMessage sendMessage = new SendMessage(update.message().chat().id(),
                 "Добро пожаловать в приложение")
                 .replyMarkup(markup);
         bot.execute(sendMessage);
+        if (update.message().text().equals(DOG)) {
+            descriptionHandler.handle(update, DOG);
+        } else if (update.message().text().equals(CAT)) {
+            descriptionHandler.handle(update, CAT);
+        }else {
+            bot.execute(new SendMessage(update.message().chat().id(), "Что то пошло не так"));
+        }
+
     }
+
 
     @Override
     public boolean isSuitable(Update update) {
@@ -43,8 +54,8 @@ public class StartHandler implements Handler {
                 .orElse(false);
     }
 
-//    @Override
-//    public boolean isSuitable(Update update) {
+///    @Override
+///    public boolean isSuitable(Update update) {
 //        if (update != null && update.message() != null && update.message().text() != null) {
 //            return update.message().text().equals(START);
 //        }
