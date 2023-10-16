@@ -3,8 +3,14 @@ package pro.sky.teamproject.commands;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
+import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
+import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
+@Component
 public class DescriptionHandler implements ExtendedHandler {
 
     private final String INFO = "/info";
@@ -19,41 +25,38 @@ public class DescriptionHandler implements ExtendedHandler {
 
     @Override
     public void handle(Update update, String userChoice) {
-        Message message = update.message();
-        if (message != null && message.text() != null) {
-            String text = message.text();
-            Long chatId = message.chat().id();
-            switch (text) {
-                case INFO:
-                    if (userChoice.equals("Dog")) {
-                        bot.execute(new SendMessage(chatId, "Информация о собаке"));
-                    } else if (userChoice.equals("Cat")) {
-                        bot.execute(new SendMessage(chatId, "Информация о кошке"));
-                    }
-                    break;
-                case TAKE:
-                    if (userChoice.equals("Dog")) {
-                        bot.execute(new SendMessage(chatId, "Вы берете собаку из приюта"));
-                    } else if (userChoice.equals("Cat")) {
-                        bot.execute(new SendMessage(chatId, "Вы берете кошку из приюта"));
-                    }
-                    break;
-                case REPORT:
-                    if (userChoice.equals("Dog")) {
-                        bot.execute(new SendMessage(chatId, "Отчет о собаке"));
-                    } else if (userChoice.equals("Cat")) {
-                        bot.execute(new SendMessage(chatId, "Отчет о кошке"));
-                    }
-                    break;
-                case VOLUNTEER:
-                    if (userChoice.equals("Dog")) {
-                        bot.execute(new SendMessage(chatId, "Вот номер волонтера для собак +7 *** ***"));
-                    } else if (userChoice.equals("Cat")) {
-                        bot.execute(new SendMessage(chatId, "Вот номер волонтера для кошек +7 *** ***"));
-                    }
-                    break;
+
+        InlineKeyboardButton infoButton = new InlineKeyboardButton("Инфо").callbackData(INFO);
+        InlineKeyboardButton takeButton = new InlineKeyboardButton("Взять").callbackData(TAKE);
+        InlineKeyboardButton reportButton = new InlineKeyboardButton("Отчет").callbackData(REPORT);
+        InlineKeyboardButton volunteerButton = new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER);
+        InlineKeyboardMarkup markup = new InlineKeyboardMarkup(infoButton,takeButton,reportButton,volunteerButton);
+
+            long chatId = update.callbackQuery().message().chat().id();
+            SendMessage sendMessage = new SendMessage(chatId,
+                    "Выберите действие")
+                    .replyMarkup(markup);
+            bot.execute(sendMessage);
+        if (update.callbackQuery() != null) {
+            var callbackData = update.callbackQuery().data();
+
+            if (Objects.equals(userChoice, "Dog")){
+                assert callbackData != null;
+                if (callbackData.equals(INFO)){ //Каллбекнеться Dog нужно /info
+                    bot.execute(new SendMessage(chatId, "Тут будет инфо о собаке"));
+                }
+                // Добавьте здесь обработку других команд для "Dog"
+            } else if (Objects.equals(userChoice, "Cat")) {
+                assert callbackData != null;
+                if (callbackData.equals(INFO)){
+                    SendMessage sendMessage1 = new SendMessage(chatId, "Тут будет инфо о кошке");
+                    bot.execute(sendMessage1);
+                }
+                // Добавьте здесь обработку других команд для "Cat"
             }
         }
+
+
     }
 
     @Override
