@@ -28,8 +28,8 @@ public class StartHandler implements Handler {
      * @param update creates a buttons and sends a message
      */
     public void handle(Update update) {
-        String DOG = "Dog";
-        String CAT = "Cat";
+        String DOG = "/dog";
+        String CAT = "/cat";
         InlineKeyboardButton dogButton = new InlineKeyboardButton("Приют собак").callbackData(DOG);
         InlineKeyboardButton catButton = new InlineKeyboardButton("Приют кошек").callbackData(CAT);
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(dogButton, catButton);
@@ -47,16 +47,17 @@ public class StartHandler implements Handler {
             long chatId = update.callbackQuery().message().chat().id();
 
             if (callbackData.equals(DOG)) {
-                bot.execute(new SendMessage(chatId, "Собака"));
-                descriptionHandler.handle(update, DOG);
+                descriptionHandler.handle(update, "/info");
             } else if (callbackData.equals(CAT)) {
-                bot.execute(new SendMessage(chatId, "Кот"));
-                descriptionHandler.handle(update, CAT);
+                descriptionHandler.handle(update, "/info");
             } else {
                 bot.execute(new SendMessage(chatId, "Что то пошло не так"));
             }
         }
     }
+
+
+
 
     @Override
     public boolean isSuitable(Update update) {
@@ -66,4 +67,12 @@ public class StartHandler implements Handler {
                 .map(el -> el.equals(START))
                 .orElse(false);
     }
+
+///    @Override
+///    public boolean isSuitable(Update update) {
+//        if (update != null && update.message() != null && update.message().text() != null) {
+//            return update.message().text().equals(START);
+//        }
+//        return false;
+//    }
 }

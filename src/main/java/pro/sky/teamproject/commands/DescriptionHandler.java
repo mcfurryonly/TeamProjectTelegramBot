@@ -7,8 +7,11 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
+import com.pengrad.telegrambot.model.CallbackQuery;
+
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Component
 public class DescriptionHandler implements ExtendedHandler {
@@ -61,9 +64,13 @@ public class DescriptionHandler implements ExtendedHandler {
 
     @Override
     public boolean isSuitable(Update update) {
-        Message message = update.message();
-        return message != null && message.text() != null &&
-                (message.text().equals(INFO) || message.text().equals(TAKE) ||
-                        message.text().equals(REPORT) || message.text().equals(VOLUNTEER));
+        String text = Optional.ofNullable(update.message())
+                .map(Message::text)
+                .orElseGet(() -> Optional.ofNullable(update.callbackQuery())
+                        .map(CallbackQuery::data)
+                        .orElse(null));
+        return text != null && (text.equals(INFO) || text.equals(TAKE) ||
+                text.equals(REPORT) || text.equals(VOLUNTEER));
     }
+
 }
