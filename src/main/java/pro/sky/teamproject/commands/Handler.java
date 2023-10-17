@@ -6,6 +6,4 @@ public interface Handler {
 
     void handle(Update update);
 
-    boolean isSuitable(Update update);
-
 }
