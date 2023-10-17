@@ -6,7 +6,6 @@ import com.pengrad.telegrambot.model.Update;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import pro.sky.teamproject.commands.DescriptionHandler;
 import pro.sky.teamproject.commands.StartHandler;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +24,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final StartHandler startHandler;
 
-    private DescriptionHandler descriptionHandler;
 
     public TelegramBotUpdatesListener(TelegramBot telegramBot, StartHandler startHandler) {
         this.telegramBot = telegramBot;
