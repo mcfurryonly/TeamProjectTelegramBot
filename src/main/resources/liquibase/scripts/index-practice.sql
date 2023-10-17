@@ -1,10 +1,41 @@
--- liquibase formatted sql
+-- liquebase formatted sql
 
--- changeset Dmitry:1
+--changeset lBorisov:1
 create schema if not exists telegram_bot;
-
--- changeset Dmitry:2
-create table if not exists team_project(
-    id bigSerial primary key ,
-    user_id bigInt not null,
+--changeset lBorisov:2
+create table visitor
+(
+    id primary key ,
+    name not null,
+    phoneNumber not null,
+);
+--changeset lBorisov:3
+create table cat_shelter
+(id primary key,
+name not null,
+age not null,
+gender not null,
+photo not null
+);
+--changeset lBorisov:4
+create table dog_shelter
+(id primary key,
+name not null,
+age null null,
+size not null,
+gender not null,
+photo not null
+);
+--changeset lBorisov:5
+create table volunteer
+(id primary key,
+name not null,
+shelter not null
+);
+--changeset lBorisov:6
+create table animal_adopter
+(id primary key,
+name not null,
+date timestamp not null,
+id animal not null
 );
