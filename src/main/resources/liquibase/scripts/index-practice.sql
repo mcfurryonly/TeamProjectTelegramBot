@@ -1,4 +1,4 @@
--- liquebase formatted sql
+-- liquibase formatted sql
 
 --changeset lBorisov:1
 create schema if not exists telegram_bot;
@@ -8,6 +8,7 @@ create table visitor
     id primary key ,
     name not null,
     phoneNumber not null,
+    visitCount not null
 );
 --changeset lBorisov:3
 create table cat_shelter

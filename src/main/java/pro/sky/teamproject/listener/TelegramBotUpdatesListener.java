@@ -44,8 +44,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-
-            startHandler.handle(update);
+            try {
+                startHandler.checkAndAddUser(update);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
