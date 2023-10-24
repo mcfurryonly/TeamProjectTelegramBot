@@ -6,6 +6,7 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
+import pro.sky.teamproject.service.VisitorService;
 
 import javax.persistence.EntityManager;
 
@@ -13,12 +14,15 @@ import javax.persistence.EntityManager;
 @Component
 public class StartHandler implements Handler {
 
+    private final VisitorService visitorService;
+
     private final TelegramBot bot;
 
     private final EntityManager entityManager;
 
 
-    public StartHandler(TelegramBot bot, EntityManager entityManager) {
+    public StartHandler(VisitorService visitorService, TelegramBot bot, EntityManager entityManager) {
+        this.visitorService = visitorService;
         this.bot = bot;
         this.entityManager = entityManager;
     }
@@ -36,6 +40,7 @@ public class StartHandler implements Handler {
 
         if (update.message() != null) {
             long chatId = update.message().chat().id();
+            visitorService.addNewUser(chatId);
             SendMessage sendMessage = new SendMessage(chatId,
                     "Добро пожаловать в приложение")
                     .replyMarkup(markup);
@@ -55,23 +60,16 @@ public class StartHandler implements Handler {
             String VOLUNTEER = "/volunteer";
             if (callbackData.equals(DOG)) {
                 InlineKeyboardButton infoButton = new InlineKeyboardButton("Инфо").callbackData(INFO);
-
                 InlineKeyboardButton takeButton = new InlineKeyboardButton("Взять").callbackData(TAKE);
-
                 InlineKeyboardButton reportButton = new InlineKeyboardButton("Отчет").callbackData(REPORT);
-
                 InlineKeyboardButton volunteerButton = new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER);
-
                 var markup1 = new InlineKeyboardMarkup(infoButton, takeButton, reportButton, volunteerButton);
                 bot.execute(new SendMessage(chatId, "Выберите действие ").replyMarkup(markup1));
                 return;
             } else if (callbackData.equals(CAT)) {
                 InlineKeyboardButton infoButton1 = new InlineKeyboardButton("Инфо").callbackData(INFOCAT);
-
                 InlineKeyboardButton takeButton1 = new InlineKeyboardButton("Взять").callbackData(TAKECAT);
-
                 InlineKeyboardButton reportButton1 = new InlineKeyboardButton("Отчет").callbackData(REPORTCAT);
-
                 InlineKeyboardButton volunteerButton1 = new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER);
 
                 var markup1 = new InlineKeyboardMarkup(infoButton1, takeButton1, reportButton1, volunteerButton1);
@@ -80,7 +78,6 @@ public class StartHandler implements Handler {
             } else if (callbackData.equals("back")) {
                 bot.execute(new SendMessage(chatId, "Когда нибудь он вернется"));
 //                checkAndAddUser(update);
-
             }
 
             if (callbackData.equals(INFO)) {
@@ -111,8 +108,6 @@ public class StartHandler implements Handler {
             } else bot.execute(new SendMessage(chatId, "Извините я не могу вам помочь, но вы можете связаться" +
                     " с волонтером по этому номеру +382 688 ***"));
         }
-
-
     }
 
 ///    @Override
@@ -178,5 +173,6 @@ public class StartHandler implements Handler {
             } else bot.execute(new SendMessage(chatId, "Извините я не могу вам помочь, но вы можете связаться" +
                     " с волонтером по этому номеру +382 688 ***"));
         }
+
     }
 }

@@ -6,6 +6,10 @@ import java.util.Objects;
 @Entity
 @Table(name = "visitor")
 public class Visitor {
+    public Visitor(Long telegramUserId) {
+        this.telegramUserId = telegramUserId;
+    }
+
     @Override
     public String toString() {
         return "Visitor{" +
@@ -31,10 +35,13 @@ public class Visitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long telegramUserId;
 
-    public Visitor(Long id, String name, String phoneNumber, Integer visitCount) {
+    public Visitor(Long telegramUserId, String name, String phoneNumber) {
+        //TODO для чего поле Integer visitCount, также удалила из конструктора id, так как оно автогенерируется
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.telegramUserId = telegramUserId;
     }
     public Visitor() {
 
@@ -70,5 +77,12 @@ public class Visitor {
         this.phoneNumber = phoneNumber;
     }
 
+    public Long getTelegramUserId() {
+        return telegramUserId;
+    }
+
+    public void setTelegramUserId(Long telegramUserId) {
+        this.telegramUserId = telegramUserId;
+    }
 }
 
