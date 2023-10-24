@@ -33,9 +33,9 @@ public class StartHandler implements Handler {
     public void handle(Update update) {
         String DOG = "/dog";
         String CAT = "/cat";
-        InlineKeyboardButton dogButton = new InlineKeyboardButton("Приют собак").callbackData(DOG);
-        InlineKeyboardButton catButton = new InlineKeyboardButton("Приют кошек").callbackData(CAT);
-        InlineKeyboardButton backButton = new InlineKeyboardButton("Назад").callbackData("back");
+        InlineKeyboardButton[] dogButton = {new InlineKeyboardButton("Приют собак").callbackData(DOG)};
+        InlineKeyboardButton[] catButton = {new InlineKeyboardButton("Приют кошек").callbackData(CAT)};
+        InlineKeyboardButton[] backButton = {new InlineKeyboardButton("Назад").callbackData("back")};
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup(dogButton, catButton, backButton);
 
         if (update.message() != null) {
@@ -59,20 +59,21 @@ public class StartHandler implements Handler {
             String REPORTCAT = "/reportCat";
             String VOLUNTEER = "/volunteer";
             if (callbackData.equals(DOG)) {
-                InlineKeyboardButton infoButton = new InlineKeyboardButton("Инфо").callbackData(INFO);
-                InlineKeyboardButton takeButton = new InlineKeyboardButton("Взять").callbackData(TAKE);
-                InlineKeyboardButton reportButton = new InlineKeyboardButton("Отчет").callbackData(REPORT);
-                InlineKeyboardButton volunteerButton = new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER);
-                var markup1 = new InlineKeyboardMarkup(infoButton, takeButton, reportButton, volunteerButton);
+                InlineKeyboardMarkup markup1 = new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+                        {new InlineKeyboardButton("Инфо").callbackData(INFO)},
+                        {new InlineKeyboardButton("Взять").callbackData(TAKE)},
+                        {new InlineKeyboardButton("Отчет").callbackData(REPORT)},
+                        {new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER)}
+                });
                 bot.execute(new SendMessage(chatId, "Выберите действие ").replyMarkup(markup1));
                 return;
             } else if (callbackData.equals(CAT)) {
-                InlineKeyboardButton infoButton1 = new InlineKeyboardButton("Инфо").callbackData(INFOCAT);
-                InlineKeyboardButton takeButton1 = new InlineKeyboardButton("Взять").callbackData(TAKECAT);
-                InlineKeyboardButton reportButton1 = new InlineKeyboardButton("Отчет").callbackData(REPORTCAT);
-                InlineKeyboardButton volunteerButton1 = new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER);
-
-                var markup1 = new InlineKeyboardMarkup(infoButton1, takeButton1, reportButton1, volunteerButton1);
+                InlineKeyboardMarkup markup1 = new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
+                        {new InlineKeyboardButton("Инфо").callbackData(INFOCAT)},
+                        {new InlineKeyboardButton("Взять").callbackData(TAKECAT)},
+                        {new InlineKeyboardButton("Отчет").callbackData(REPORTCAT)},
+                        {new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER)}
+                });
                 bot.execute(new SendMessage(chatId, "Выберите действие ").replyMarkup(markup1));
                 return;
             } else if (callbackData.equals("back")) {
