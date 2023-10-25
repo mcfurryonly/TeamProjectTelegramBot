@@ -6,7 +6,8 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Component;
-import pro.sky.teamproject.service.VisitorService;
+import pro.sky.teamproject.model.Visitor;
+import pro.sky.teamproject.repository.VisitorRepository;
 
 import javax.persistence.EntityManager;
 
@@ -14,17 +15,18 @@ import javax.persistence.EntityManager;
 @Component
 public class StartHandler implements Handler {
 
-    private final VisitorService visitorService;
 
     private final TelegramBot bot;
 
     private final EntityManager entityManager;
 
+    private final VisitorRepository visitorRepository;
 
-    public StartHandler(VisitorService visitorService, TelegramBot bot, EntityManager entityManager) {
-        this.visitorService = visitorService;
+
+    public StartHandler(TelegramBot bot, EntityManager entityManager, VisitorRepository visitorRepository) {
         this.bot = bot;
         this.entityManager = entityManager;
+        this.visitorRepository = visitorRepository;
     }
 
     /**
@@ -40,7 +42,6 @@ public class StartHandler implements Handler {
 
         if (update.message() != null) {
             long chatId = update.message().chat().id();
-            visitorService.addNewUser(chatId);
             SendMessage sendMessage = new SendMessage(chatId,
                     "Добро пожаловать в приложение")
                     .replyMarkup(markup);
@@ -58,6 +59,7 @@ public class StartHandler implements Handler {
             String TAKECAT = "/takeCat";
             String REPORTCAT = "/reportCat";
             String VOLUNTEER = "/volunteer";
+
             if (callbackData.equals(DOG)) {
                 InlineKeyboardButton infoButton = new InlineKeyboardButton("Инфо").callbackData(INFO);
                 InlineKeyboardButton takeButton = new InlineKeyboardButton("Взять").callbackData(TAKE);
@@ -65,6 +67,7 @@ public class StartHandler implements Handler {
                 InlineKeyboardButton volunteerButton = new InlineKeyboardButton("Позвать волонтера").callbackData(VOLUNTEER);
                 var markup1 = new InlineKeyboardMarkup(infoButton, takeButton, reportButton, volunteerButton);
                 bot.execute(new SendMessage(chatId, "Выберите действие ").replyMarkup(markup1));
+
                 return;
             } else if (callbackData.equals(CAT)) {
                 InlineKeyboardButton infoButton1 = new InlineKeyboardButton("Инфо").callbackData(INFOCAT);
@@ -74,12 +77,13 @@ public class StartHandler implements Handler {
 
                 var markup1 = new InlineKeyboardMarkup(infoButton1, takeButton1, reportButton1, volunteerButton1);
                 bot.execute(new SendMessage(chatId, "Выберите действие ").replyMarkup(markup1));
+
                 return;
             } else if (callbackData.equals("back")) {
                 bot.execute(new SendMessage(chatId, "Когда нибудь он вернется"));
-//                checkAndAddUser(update);
+//                Visitor visitor = new Visitor();
+//                visitorRepository.delete(visitor);
             }
-
             if (callbackData.equals(INFO)) {
                 bot.execute(new SendMessage(chatId, "Мы приют в котором очень любят собак мы готовы помочь вам с их выбором," +
                         "или просто проконсультировать какая порода вам больше подойдет "));
@@ -123,7 +127,7 @@ public class StartHandler implements Handler {
 ///    public void addUser(@Param("name") String name) {
 //    }
 
-    public void checkAndAddUser(Update update) { //Идея такова что при первом нажатии это меню всплывет, а при втором нажатии на старт будет другое меню уже
+    public void forNewUser(Update update) { //Идея такова что при первом нажатии это меню всплывет, а при втором нажатии на старт будет другое меню уже
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
                 {new InlineKeyboardButton("О приюте").callbackData("about")},
                 {new InlineKeyboardButton("Расписание и адрес").callbackData("schedule")},

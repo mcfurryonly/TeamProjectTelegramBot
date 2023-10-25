@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pro.sky.teamproject.commands.ReportHandler;
 import pro.sky.teamproject.commands.StartHandler;
+import pro.sky.teamproject.service.VisitorService;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -27,11 +28,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final ReportHandler reportHandler;
 
+    private final VisitorService visitorService;
 
-    public TelegramBotUpdatesListener(TelegramBot telegramBot, StartHandler startHandler, ReportHandler reportHandler) {
+
+    public TelegramBotUpdatesListener(TelegramBot telegramBot, StartHandler startHandler, ReportHandler reportHandler, VisitorService visitorService) {
         this.telegramBot = telegramBot;
         this.startHandler = startHandler;
         this.reportHandler = reportHandler;
+        this.visitorService = visitorService;
     }
 
     @PostConstruct
@@ -54,8 +58,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 if (update != null && update.message() != null && update.message().photo() != null) {
                     reportHandler.handle(update);
                 } else if (update != null) {
-//                    startHandler.checkAndAddUser(update);
-                    startHandler.handle(update);
+                    long chatId = update.message().chat().id();
+                    visitorService.handleTelegramUser(chatId, update);
                     //TODO надо было тестировать кнопку отчет, поэтому я вызвала handle
                 }
             } catch (Throwable e) {

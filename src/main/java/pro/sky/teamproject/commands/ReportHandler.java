@@ -31,9 +31,8 @@ public class ReportHandler implements Handler {
         if (update.message().caption() == null || update.message().caption().isEmpty()) {
             bot.execute(new SendMessage(update.message().chat().id(),
                     "Необходимо отправить фото с описанием состояния животного"));
-            return;
         }
-        PhotoSize[] photoSize = update.message().photo();//создали массив где есть картинка но разных размеров
+        PhotoSize[] photoSize = update.message().photo();//создали массив, где есть картинка, но разных размеров
         GetFileResponse response = bot.execute(new GetFile(photoSize[photoSize.length - 1].fileId()));
         //Класс в пенграде для получения файла по id и мы получили ответ с последней картинку которая сама большая по размерам
         String path = bot.getFullFilePath(response.file());
@@ -42,7 +41,7 @@ public class ReportHandler implements Handler {
         Request request = new Request.Builder().head().url(path).build();
         //создание запроса с путем картинки для дальнейшего вызова
         try (Response pathResponse = new OkHttpClient().newCall(request).execute()) {
-            //Класс для получения ответа от телеграма на картинку чтоб получить картинку
+            //Класс для получения ответа от телеграмма на картинку, чтоб получить картинку
             //OkHttpClient это класс для отправки запросов в веб
             //newCall вызывает запрос на определенную страницу
             if (pathResponse.isSuccessful()) {
@@ -53,7 +52,6 @@ public class ReportHandler implements Handler {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
 
     }
 }

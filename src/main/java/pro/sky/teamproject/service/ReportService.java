@@ -1,5 +1,6 @@
 package pro.sky.teamproject.service;
 
+import com.pengrad.telegrambot.model.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pro.sky.teamproject.model.Report;
@@ -13,7 +14,6 @@ public class ReportService {
     private final ReportRepository reportRepository;
 
     private final VisitorRepository visitorRepository;
-
     public ReportService(ReportRepository reportRepository, VisitorRepository visitorRepository) {
         this.reportRepository = reportRepository;
         this.visitorRepository = visitorRepository;
