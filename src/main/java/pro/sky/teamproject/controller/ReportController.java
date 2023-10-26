@@ -22,9 +22,9 @@ public class ReportController {
        return ResponseEntity.ok(reportService.getReport(id));
     }
 
-//    @GetMapping("/{id}/photo")
-//    public ResponseEntity<Object> getPhotoOfReport(@PathVariable Long id) {
-//        return ResponseEntity.ok(reportService.getPhotoOfReport(id));
-//    }
+    @GetMapping("/{id}/photo")
+    public ResponseEntity<Object> getPhotoOfReport(@PathVariable Long id) {
+        return ResponseEntity.ok(reportService.getPhotoOfReport(id));
+    }
 
 }

@@ -45,7 +45,8 @@ public class ReportHandler implements Handler {
             //Класс для получения ответа от телеграма на картинку чтоб получить картинку
             //OkHttpClient это класс для отправки запросов в веб
             //newCall вызывает запрос на определенную страницу
-            if (pathResponse.isSuccessful()) {
+            //TODO проверить pathResponse на наличие ответа
+            if (pathResponse.isSuccessful() && pathResponse.body() != null) {
                 reportService.saveReport(update.message().from().id(),
                         pathResponse.body().bytes(), update.message().caption());
                 bot.execute(new SendMessage(update.message().chat().id(), "Ваш отчет принят"));

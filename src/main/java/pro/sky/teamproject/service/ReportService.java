@@ -28,7 +28,14 @@ public class ReportService {
         return reportRepository.findById(id).orElseThrow();
     }
 
-//    public MultipartFile getPhotoOfReport(Long id) {
-//
-//    }
+    public byte[] getPhotoOfReport(Long id) {
+        Report report = reportRepository.findById(id).orElse(null);
+        if (report != null) {
+            byte[] result = report.getPicture();
+            return result;
+        }
+        return null;
+
+    }
+
 }

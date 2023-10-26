@@ -1,5 +1,7 @@
 package pro.sky.teamproject.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
@@ -10,6 +12,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     private byte[] picture;
     private String description;
     private final boolean process = false;
