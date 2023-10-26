@@ -12,7 +12,7 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Lob
-    @Type(type = "org.hibernate.type.ImageType")
+//    @Type(type = "org.hibernate.type.ImageType")
     private byte[] picture;
     private String description;
     private final boolean process = false;

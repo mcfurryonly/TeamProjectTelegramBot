@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import pro.sky.teamproject.service.ReportService;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 public class ReportHandler implements Handler {
@@ -47,6 +48,7 @@ public class ReportHandler implements Handler {
             //newCall вызывает запрос на определенную страницу
             //TODO проверить pathResponse на наличие ответа
             if (pathResponse.isSuccessful() && pathResponse.body() != null) {
+                byte[] bytes = pathResponse.body().bytes();
                 reportService.saveReport(update.message().from().id(),
                         pathResponse.body().bytes(), update.message().caption());
                 bot.execute(new SendMessage(update.message().chat().id(), "Ваш отчет принят"));
