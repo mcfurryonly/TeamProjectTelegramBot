@@ -11,9 +11,7 @@ import pro.sky.teamproject.service.ReportService;
 @RestController
 @RequestMapping("/report")
 public class ReportController {
-
     private final ReportService reportService;
-
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
     }
@@ -21,7 +19,6 @@ public class ReportController {
     public ResponseEntity<Object> getReport(@PathVariable Long id) {
        return ResponseEntity.ok(reportService.getReport(id));
     }
-
     @GetMapping("/{id}/photo")
     public ResponseEntity<Object> getPhotoOfReport(@PathVariable Long id) {
         return ResponseEntity.ok(reportService.getPhotoOfReport(id));

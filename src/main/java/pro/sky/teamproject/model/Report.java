@@ -28,7 +28,6 @@ public class Report {
     }
 
     public Report() {
-
     }
 
     public void setId(Long id) {
