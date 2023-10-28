@@ -9,9 +9,7 @@ import pro.sky.teamproject.repository.VisitorRepository;
 
 @Service
 public class ReportService {
-
     private final ReportRepository reportRepository;
-
     private final VisitorRepository visitorRepository;
 
     public ReportService(ReportRepository reportRepository, VisitorRepository visitorRepository) {

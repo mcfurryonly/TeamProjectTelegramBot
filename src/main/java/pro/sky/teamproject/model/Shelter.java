@@ -9,15 +9,11 @@ import java.util.Objects;
 
 @Entity
 public class Shelter {
-
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private String description;
-
     private String address;
     @Lob
     private byte[] schema;
@@ -30,7 +26,6 @@ public class Shelter {
     }
 
     public Shelter() {
-
     }
 
     public void setId(Long id) {

@@ -17,11 +17,8 @@ import java.io.InputStream;
 
 @Component
 public class ReportHandler implements Handler {
-
     private final TelegramBot bot;
-
     private final ReportService reportService;
-
     public ReportHandler(TelegramBot bot, ReportService reportService) {
         this.bot = bot;
         this.reportService = reportService;
@@ -34,7 +31,7 @@ public class ReportHandler implements Handler {
                     "Необходимо отправить фото с описанием состояния животного"));
             return;
         }
-        PhotoSize[] photoSize = update.message().photo();//создали массив где есть картинка но разных размеров
+        PhotoSize[] photoSize = update.message().photo();//создали массив, где есть картинка, но разных размеров
         GetFileResponse response = bot.execute(new GetFile(photoSize[photoSize.length - 1].fileId()));
         //Класс в пенграде для получения файла по id и мы получили ответ с последней картинку которая сама большая по размерам
         String path = bot.getFullFilePath(response.file());
@@ -43,10 +40,9 @@ public class ReportHandler implements Handler {
         Request request = new Request.Builder().head().url(path).build();
         //создание запроса с путем картинки для дальнейшего вызова
         try (Response pathResponse = new OkHttpClient().newCall(request).execute()) {
-            //Класс для получения ответа от телеграма на картинку чтоб получить картинку
+            //Класс для получения ответа от телеграма на картинку, чтоб получить картинку
             //OkHttpClient это класс для отправки запросов в веб
             //newCall вызывает запрос на определенную страницу
-            //TODO проверить pathResponse на наличие ответа
             if (pathResponse.isSuccessful() && pathResponse.body() != null) {
                 byte[] bytes = pathResponse.body().bytes();
                 reportService.saveReport(update.message().from().id(),

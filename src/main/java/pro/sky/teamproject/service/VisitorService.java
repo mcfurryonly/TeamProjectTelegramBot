@@ -6,9 +6,7 @@ import pro.sky.teamproject.repository.VisitorRepository;
 
 @Service
 public class VisitorService {
-
     private final VisitorRepository visitorRepository;
-
     public VisitorService(VisitorRepository visitorRepository) {
         this.visitorRepository = visitorRepository;
     }

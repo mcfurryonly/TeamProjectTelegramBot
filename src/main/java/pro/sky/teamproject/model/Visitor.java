@@ -18,7 +18,6 @@ public class Visitor {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,7 +37,6 @@ public class Visitor {
     private Long telegramUserId;
 
     public Visitor(Long telegramUserId, String name, String phoneNumber) {
-        //TODO для чего поле Integer visitCount, также удалила из конструктора id, так как оно автогенерируется
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.telegramUserId = telegramUserId;

@@ -6,6 +6,5 @@ import pro.sky.teamproject.model.Visitor;
 
 @Repository
 public interface VisitorRepository extends JpaRepository<Visitor, Long> {
-
     Visitor findByTelegramUserId(Long telegramUserId);
 }
