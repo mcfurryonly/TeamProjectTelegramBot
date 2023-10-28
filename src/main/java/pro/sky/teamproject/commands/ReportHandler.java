@@ -44,9 +44,9 @@ public class ReportHandler implements Handler {
             //OkHttpClient это класс для отправки запросов в веб
             //newCall вызывает запрос на определенную страницу
             if (pathResponse.isSuccessful() && pathResponse.body() != null) {
-                byte[] bytes = pathResponse.body().bytes();
-                reportService.saveReport(update.message().from().id(),
-                        pathResponse.body().bytes(), update.message().caption());
+//                byte[] bytes = pathResponse.body().bytes();
+//                reportService.saveReport(update.message().from().id(),
+//                        pathResponse.body().bytes(), update.message().caption());
                 bot.execute(new SendMessage(update.message().chat().id(), "Ваш отчет принят"));
             }
         } catch (IOException e) {
