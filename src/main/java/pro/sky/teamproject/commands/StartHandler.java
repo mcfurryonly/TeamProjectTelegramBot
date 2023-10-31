@@ -61,6 +61,7 @@ public class StartHandler implements Handler {
                 InlineKeyboardMarkup markupDog = new InlineKeyboardMarkup(infoButtonDog, takeButton,
                         reportButton, volunteerButton, mainButton);
                 bot.execute(new SendMessage(chatId, "Выберите действие ").replyMarkup(markupDog));
+
             } else if (callbackData.equals(CAT)) {
                 InlineKeyboardButton infoButtonCat = new InlineKeyboardButton("Инфо")
                         .callbackData(INFO_CAT);

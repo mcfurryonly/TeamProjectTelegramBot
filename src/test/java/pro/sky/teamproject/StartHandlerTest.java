@@ -61,7 +61,7 @@ public class StartHandlerTest {
     }
 
     @Test
-    public void checkCallbackShelter() throws URISyntaxException, IOException {
+    public void checkCallbackShelterDog() throws URISyntaxException, IOException {
         String json = Files.readString(Paths.get(TelegramBotUpdateListenerTests.class
                 .getResource("json/callback_shelter.json").toURI()));
         Update update = BotUtils.fromJson(json, Update.class);
@@ -75,8 +75,13 @@ public class StartHandlerTest {
                 .inlineKeyboard()[0].length).isEqualTo(5);
         assertThat(((InlineKeyboardMarkup) actual.getParameters().get("reply_markup"))
                 .inlineKeyboard()[0][0].callbackData()).isEqualTo("/infoDog");
-        json = json.replace("/dog", "/cat");
+    }
 
+    @Test
+    public void checkCallbackShelterCat() throws URISyntaxException, IOException {
+        String json = Files.readString(Paths.get(TelegramBotUpdateListenerTests.class
+                .getResource("json/callback_shelter.json").toURI()));
+        json = json.replace("/dog", "/cat");
         Update updateCat = BotUtils.fromJson(json, Update.class);
         startHandler.handle(updateCat);
         ArgumentCaptor<SendMessage> argumentCaptorCat = ArgumentCaptor.forClass(SendMessage.class);
