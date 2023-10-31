@@ -3,6 +3,7 @@ package pro.sky.teamproject.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -45,14 +46,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            //TODO создать проверку на наличие картинки и после этого отправить новый отчет в базу
+//            создать проверку на наличие картинки и после этого отправить новый отчет в базу
             try {
                 if (update != null && update.message() != null && update.message().photo() != null) {
                     reportHandler.handle(update);
                 } else if (update != null) {
 //                    startHandler.checkAndAddUser(update);
                     startHandler.handle(update);
-                    //TODO надо было тестировать кнопку отчет, поэтому я вызвала handle
+                    //надо было тестировать кнопку отчет, поэтому я вызвала handle
                 }
             } catch (Throwable e) {
                 throw new RuntimeException(e);

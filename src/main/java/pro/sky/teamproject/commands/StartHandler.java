@@ -18,7 +18,6 @@ import java.io.File;
 public class StartHandler implements Handler {
     private final VisitorService visitorService;
     private final TelegramBot bot;
-    private final EntityManager entityManager;
     private final String INFO_DOG = "/infoDog";
     private final String TAKE_DOG = "/takeDog";
     private final String REPORT_DOG = "/reportDog";
@@ -30,10 +29,9 @@ public class StartHandler implements Handler {
     private final String DOG = "/dog";
     private final String CAT = "/cat";
 
-    public StartHandler(VisitorService visitorService, TelegramBot bot, EntityManager entityManager) {
+    public StartHandler(VisitorService visitorService, TelegramBot bot) {
         this.visitorService = visitorService;
         this.bot = bot;
-        this.entityManager = entityManager;
     }
 
     /**
@@ -43,7 +41,8 @@ public class StartHandler implements Handler {
         if (update.message() != null) {
             long chatId = update.message().chat().id();
             showMainMenu(chatId);
-        } else if (update.callbackQuery() != null) {
+        }
+        else if (update.callbackQuery() != null) {
             var chatId = update.callbackQuery().message().chat().id();
             var callbackData = update.callbackQuery().data();
 
@@ -98,6 +97,7 @@ public class StartHandler implements Handler {
             }
         }
     }
+
     public void showMenuTake(Long chatId, String animalType) {
         int countRows = animalType.equals("Dog") ? 12 : 10;
         InlineKeyboardButton[][] inlineKeyboardButtons = new InlineKeyboardButton[countRows][1];
@@ -146,6 +146,7 @@ public class StartHandler implements Handler {
                 .replyMarkup(keyboard);
         bot.execute(sendMessage);
     }
+
     public void showMainMenu(Long chatId) {
         InlineKeyboardButton dogButton = new InlineKeyboardButton("Приют собак")
                 .callbackData(DOG);
