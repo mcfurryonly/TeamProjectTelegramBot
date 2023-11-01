@@ -82,13 +82,10 @@ public class StartHandler implements Handler {
                 showMenuTake(chatId, "Dog");
             } else if (callbackData.equals(TAKE_CAT)) {
                 showMenuTake(chatId, "Cat");
-            } else if (callbackData.equals(REPORT_DOG)) {
+            } else if (callbackData.equals(REPORT_DOG) || callbackData.equals(REPORT_CAT)) {
                 bot.execute(new SendMessage(chatId, "Писать отчет нужно в описании к фотографии одним сообщением: "));
                 bot.execute(new SendPhoto(chatId, new File("images.jpeg"))
                         .caption("Описание состояния животного").parseMode(ParseMode.HTML));
-            } else if (callbackData.equals(REPORT_CAT)) {
-                bot.execute(new SendMessage(chatId, "Писать отчет нужно в описании к фотографии одним сообщением. " +
-                        "Пример отчета: "));
             } else if (callbackData.equals(VOLUNTEER)) {
                 bot.execute(new SendMessage(chatId, "Вы можете связаться с волонтером по этому номеру +382 688 ***"));
             } else if (Constants.allCommandsForDog.containsKey(callbackData)) {
@@ -133,7 +130,7 @@ public class StartHandler implements Handler {
         bot.execute(new SendMessage(chatId, "Выберите действие").replyMarkup(inlineKeyboardMarkup));
     }
 
-    public void showInfo(Long chatId, String animalType) { //Идея такова что при первом нажатии это меню всплывет, а при втором нажатии на старт будет другое меню уже
+    public void showInfo(Long chatId, String animalType) {
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton[][]{
                 {new InlineKeyboardButton("О приюте").callbackData("about" + animalType)},
                 {new InlineKeyboardButton("Расписание и адрес").callbackData("schedule" + animalType)},
