@@ -6,9 +6,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pro.sky.teamproject.model.Visitor;
+import pro.sky.teamproject.service.ReportService;
+import pro.sky.teamproject.service.VisitorService;
 
 @RestController
-public class UserController {
+public class VisitorController {
+
+    private final VisitorService visitorService;
+    public VisitorController(VisitorService visitorService) {
+        this.visitorService = visitorService;
+    }
     @Operation(summary = "register new user", description = "registration of new user with phone number",
             responses = {
                     @ApiResponse(responseCode = "200",
@@ -20,9 +28,9 @@ public class UserController {
                             description = "Server Error"
                     )
             })
-    @PostMapping("/add-new-data")
-    public ResponseEntity<String> addNewData(@RequestParam Long id,
-                                             @RequestParam String number) {
-        return ResponseEntity.ok("test");
+    @PostMapping("/addNewUser")
+    public ResponseEntity<String> addNewUser(@RequestParam Long telegramUserId) {
+       return ResponseEntity.ok(visitorService.addNewUser(telegramUserId));
     }
+
 }

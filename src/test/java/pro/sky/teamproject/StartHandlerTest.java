@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pro.sky.teamproject.commands.Constants;
 import pro.sky.teamproject.commands.StartHandler;
 import pro.sky.teamproject.service.VisitorService;
 
@@ -231,13 +232,21 @@ public class StartHandlerTest {
         assertThat(actual.getParameters().get("text")).isEqualTo("Вы можете связаться с волонтером по этому номеру +382 688 ***");
     }
 
-//    @Test
-//    public void checkAllCommandsForDog() throws URISyntaxException, IOException {
-//        String json = Files.readString(Paths.get(TelegramBotUpdateListenerTests.class
-//                .getResource("json/callback_commands.json").toURI()));
-//        List<Update> updateCommands = List.of(BotUtils.fromJson(json, Update[].class));
-//        updateCommands.forEach(el->startHandler.handle(el));
-//
-//    }
+    @Test
+    public void checkAllCommandsForDog() throws URISyntaxException, IOException {
+        String json = Files.readString(Paths.get(TelegramBotUpdateListenerTests.class
+                .getResource("json/callback_commands.json").toURI()));
+        List<Update> updateCommands = List.of(BotUtils.fromJson(json, Update[].class));
+        updateCommands.forEach(el->startHandler.handle(el));
+        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
+        Mockito.verify(bot, Mockito.times(updateCommands.size())).execute(argumentCaptor.capture());
+        List<SendMessage> actualMessages = argumentCaptor.getAllValues();
+        for (int i = 0; i < actualMessages.size(); i++) {
+            String expected = Constants.allCommandsForDog.get(updateCommands.get(i).callbackQuery().data());
+            assertThat(actualMessages.get(i).getParameters().get("text")).isEqualTo(expected);
+        }
+
+
+    }
 
 }
