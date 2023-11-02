@@ -1,0 +1,31 @@
+{
+  "message": {
+    "chat": {
+      "id": 1234567809
+    },
+    "photo": [
+      {
+        "file_id": "AgACAgQAAxkBAAIB0GVDROyfyc0yrLFs0JGGPKpci37HAALtvjEb0jQgUu-tPpWMWRWzAQADAgADcwADMwQ",
+        "file_unique_id": "AQAD7b4xG9I0IFJ4",
+        "width": 67,
+        "height": 90,
+        "file_size": 1542
+      },
+      {
+        "file_id": "AgACAgQAAxkBAAIB0GVDROyfyc0yrLFs0JGGPKpci37HAALtvjEb0jQgUu-tPpWMWRWzAQADAgADbQADMwQ",
+        "file_unique_id": "AQAD7b4xG9I0IFJy",
+        "width": 240,
+        "height": 320,
+        "file_size": 20560
+      },
+      {
+        "file_id": "AgACAgQAAxkBAAIB0GVDROyfyc0yrLFs0JGGPKpci37HAALtvjEb0jQgUu-tPpWMWRWzAQADAgADeAADMwQ",
+        "file_unique_id": "AQAD7b4xG9I0IFJ9",
+        "width": 480,
+        "height": 640,
+        "file_size": 37970
+      }
+    ],
+    "caption": ""
+  }
+}
