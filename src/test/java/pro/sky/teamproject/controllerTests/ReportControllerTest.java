@@ -31,6 +31,6 @@ public class ReportControllerTest {
         when(reportService.getReport(actualId)).thenReturn(expectedReport);
         assertThat(reportController.getReport(actualId))
                 .isEqualTo(ResponseEntity.ok(expectedReport));
-
     }
+
 }

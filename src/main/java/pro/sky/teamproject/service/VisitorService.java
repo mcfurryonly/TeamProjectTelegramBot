@@ -11,10 +11,11 @@ public class VisitorService {
         this.visitorRepository = visitorRepository;
     }
 
-    public String addNewUser(Long telegramUserId) {
-        if (visitorRepository.findByTelegramUserId(telegramUserId) == null) {
-            visitorRepository.save(new Visitor(telegramUserId));
+    public Visitor addNewUser(Long telegramUserId) {
+        Visitor visitor = visitorRepository.findByTelegramUserId(telegramUserId);
+        if (visitor == null) {
+            return visitorRepository.save(new Visitor(telegramUserId));
         }
-        return "User added";
+        return visitor;
     }
 }

@@ -10,6 +10,16 @@ public class Visitor {
         this.telegramUserId = telegramUserId;
     }
 
+    public Visitor() {
+
+    }
+
+    public Visitor(Long telegramUserId, String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.telegramUserId = telegramUserId;
+    }
+
     @Override
     public String toString() {
         return "Visitor{" +
@@ -36,14 +46,8 @@ public class Visitor {
     private Long id;
     private Long telegramUserId;
 
-    public Visitor(Long telegramUserId, String name, String phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.telegramUserId = telegramUserId;
-    }
-    public Visitor() {
 
-    }
+
     @Column(name = "name")
     private String name;
 

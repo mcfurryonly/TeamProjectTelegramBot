@@ -3,6 +3,7 @@ package pro.sky.teamproject.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class VisitorController {
     public VisitorController(VisitorService visitorService) {
         this.visitorService = visitorService;
     }
-    @Operation(summary = "register new user", description = "registration of new user with phone number",
+    @Operation(summary = "register new user", description = "registration of new user",
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "user is registered",
@@ -29,8 +30,11 @@ public class VisitorController {
                     )
             })
     @PostMapping("/addNewUser")
-    public ResponseEntity<String> addNewUser(@RequestParam Long telegramUserId) {
-       return ResponseEntity.ok(visitorService.addNewUser(telegramUserId));
+    public ResponseEntity<Visitor> addNewUser(@RequestParam Long telegramUserId) {
+        if (telegramUserId > 0 ) {
+            return ResponseEntity.ok(visitorService.addNewUser(telegramUserId));
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
 }
